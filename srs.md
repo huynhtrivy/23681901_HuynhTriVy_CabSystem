@@ -709,3 +709,104 @@ Tìm tài xế      Voucher            Dynamic Pricing
 | BR44 | Hỗ trợ mở rộng dịch vụ | Kiến trúc hệ thống cho phép bổ sung các loại dịch vụ mới trong tương lai mà không phải xây dựng lại toàn bộ hệ thống. |
 | BR45 | Hỗ trợ mở rộng phương thức thanh toán | Hệ thống cho phép tích hợp thêm phương thức hoặc nhà cung cấp thanh toán trong tương lai. |
 | BR46 | Hỗ trợ mở rộng nhà cung cấp thông báo | Hệ thống cho phép thay đổi hoặc bổ sung nhà cung cấp thông báo mà không ảnh hưởng lớn đến hệ thống hiện tại. |
+
+# B6: Xây dựng Business Process
+
+## 1. Business Process: Đặt xe
+
+### Mục tiêu
+
+Quy trình cho phép khách hàng tạo yêu cầu đặt xe, hệ thống xác nhận thông tin, tìm tài xế phù hợp và xử lý trường hợp tài xế không nhận chuyến.
+
+### Quy trình
+
+```text
+Khách hàng
+    |
+    v
+Đăng nhập hệ thống
+    |
+    v
+Nhập điểm đón và điểm đến
+    |
+    v
+Lựa chọn loại xe / dịch vụ
+    |
+    v
+Tạo yêu cầu chuyến đi
+    |
+    v
+Hệ thống kiểm tra và xác nhận yêu cầu
+    |
+    +----------------------+
+    |                      |
+    v                      v
+Không hợp lệ            Hợp lệ
+    |                      |
+    v                      v
+Thông báo lỗi        Tìm tài xế phù hợp
+                           |
+                           v
+                  Có tìm thấy tài xế?
+                    /             \
+                  Không             Có
+                   |                |
+                   v                v
+          Thông báo khách hàng   Gửi thông báo
+          không tìm được tài xế  cho tài xế
+                                    |
+                                    v
+                           Tài xế chấp nhận?
+                              /          \
+                            Không         Có
+                             |             |
+                             v             v
+                    Tìm tài xế khác   Xác nhận chuyến
+                             |             |
+                             |             v
+                             |      Thông báo khách hàng
+                             |      tài xế đã nhận chuyến
+                             |             |
+                             |             v
+                             |       Theo dõi chuyến đi
+                             |
+                             +------> Quay lại bước
+                                     tìm tài xế phù hợp
+```
+
+---
+
+## 2. Các bước chi tiết
+
+| Bước | Tác nhân   | Hoạt động                                                                                   | Kết quả                                                            |
+| ---- | ---------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| 1    | Khách hàng | Đăng nhập vào hệ thống                                                                      | Khách hàng được xác thực                                           |
+| 2    | Khách hàng | Nhập điểm đón và điểm đến                                                                   | Hệ thống nhận thông tin chuyến đi                                  |
+| 3    | Khách hàng | Lựa chọn loại xe/dịch vụ                                                                    | Xác định loại dịch vụ khách hàng muốn sử dụng                      |
+| 4    | Khách hàng | Gửi yêu cầu đặt xe                                                                          | Yêu cầu đặt xe được tạo                                            |
+| 5    | Hệ thống   | Kiểm tra thông tin yêu cầu                                                                  | Xác định yêu cầu hợp lệ hoặc không hợp lệ                          |
+| 6    | Hệ thống   | Nếu yêu cầu không hợp lệ, thông báo lỗi cho khách hàng                                      | Khách hàng biết thông tin cần điều chỉnh                           |
+| 7    | Hệ thống   | Nếu yêu cầu hợp lệ, bắt đầu tìm tài xế                                                      | Chuyển sang quá trình phân công tài xế                             |
+| 8    | Hệ thống   | Xác định tài xế phù hợp dựa trên vị trí, trạng thái sẵn sàng và tiêu chí vận hành           | Xác định có hoặc không có tài xế phù hợp                           |
+| 9    | Hệ thống   | Nếu không tìm thấy tài xế, thông báo cho khách hàng                                         | Khách hàng biết hệ thống chưa tìm được tài xế                      |
+| 10   | Hệ thống   | Nếu tìm thấy tài xế, gửi yêu cầu chuyến đi cho tài xế phù hợp                               | Tài xế nhận được thông báo                                         |
+| 11   | Tài xế     | Xem thông tin chuyến đi và quyết định chấp nhận hoặc từ chối                                | Xác định kết quả phản hồi                                          |
+| 12   | Tài xế     | Nếu từ chối hoặc không phản hồi trong thời gian quy định, hệ thống tiếp tục tìm tài xế khác | Không yêu cầu khách hàng tạo lại chuyến                            |
+| 13   | Hệ thống   | Nếu tài xế chấp nhận, xác nhận tài xế được phân công cho chuyến                             | Chuyến đi được xác nhận                                            |
+| 14   | Hệ thống   | Thông báo cho khách hàng tài xế đã nhận chuyến                                              | Khách hàng biết tài xế, thời gian dự kiến đến và trạng thái chuyến |
+| 15   | Tài xế     | Di chuyển đến điểm đón và cập nhật trạng thái                                               | Khách hàng có thể theo dõi trạng thái chuyến                       |
+
+---
+
+## 3. Business Process tổng quát
+
+**Khách hàng tạo chuyến → Hệ thống xác nhận yêu cầu → Tìm tài xế → Kiểm tra tài xế phù hợp → Gửi yêu cầu cho tài xế → Tài xế chấp nhận/từ chối → Nếu từ chối hoặc không phản hồi thì tìm tài xế khác → Nếu chấp nhận thì xác nhận chuyến → Thông báo cho khách hàng → Theo dõi chuyến đi.**
+
+### Các trường hợp ngoại lệ
+
+* **Không tìm thấy tài xế:** Hệ thống thông báo cho khách hàng rằng hiện chưa tìm được tài xế phù hợp.
+* **Tài xế từ chối:** Hệ thống tiếp tục tìm tài xế khác mà không yêu cầu khách hàng tạo lại chuyến.
+* **Tài xế không phản hồi:** Hệ thống xử lý theo thời gian phản hồi được doanh nghiệp quy định và tiếp tục tìm tài xế khác.
+* **Nhiều tài xế phù hợp:** Hệ thống ưu tiên tài xế theo vị trí, trạng thái sẵn sàng và các tiêu chí vận hành.
+* **Tài xế chấp nhận:** Hệ thống xác nhận tài xế, cập nhật trạng thái chuyến và thông báo cho khách hàng.
+
