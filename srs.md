@@ -1467,5 +1467,104 @@ TAI_XE (1) ───────── (1) PHUONG_TIEN
 
 > **Lưu ý:** Nếu doanh nghiệp cho phép một tài xế sử dụng nhiều phương tiện, quan hệ này cần đổi thành **1:N** và bổ sung quy định phương tiện nào đang được sử dụng.
 
+# B10: Non-Functional Requirements (NFR)
+
+## 1. Danh sách yêu cầu phi chức năng
+
+| Mã    | Nhóm                       | Non-Functional Requirement                                                                                              |
+| ----- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| NFR01 | Hiệu năng                  | Hệ thống phải phản hồi các thao tác thông thường của người dùng trong thời gian phù hợp, hạn chế tình trạng chờ lâu.    |
+| NFR02 | Hiệu năng                  | Hệ thống phải có khả năng xử lý đồng thời nhiều yêu cầu đặt xe trong thời gian cao điểm.                                |
+| NFR03 | Hiệu năng                  | Thông tin trạng thái chuyến đi và vị trí tài xế phải được cập nhật với độ trễ thấp.                                     |
+| NFR04 | Khả năng mở rộng           | Hệ thống phải có khả năng mở rộng khi số lượng khách hàng, tài xế và chuyến đi tăng lên.                                |
+| NFR05 | Khả năng mở rộng           | Các thành phần như đặt xe, thanh toán và thông báo phải có khả năng mở rộng độc lập khi tải tăng.                       |
+| NFR06 | Tính sẵn sàng              | Hệ thống phải hoạt động ổn định và hạn chế gián đoạn trong thời gian nhu cầu đặt xe cao.                                |
+| NFR07 | Độ tin cậy                 | Lỗi tại một thành phần như thanh toán hoặc thông báo không được làm toàn bộ hệ thống đặt xe ngừng hoạt động.            |
+| NFR08 | Khả năng phục hồi          | Hệ thống phải có khả năng xử lý và phục hồi khi xảy ra lỗi kết nối hoặc lỗi từ các dịch vụ bên ngoài.                   |
+| NFR09 | Bảo mật                    | Người dùng phải được xác thực trước khi truy cập các chức năng yêu cầu tài khoản.                                       |
+| NFR10 | Bảo mật                    | Hệ thống phải kiểm soát quyền truy cập đối với các chức năng quản trị.                                                  |
+| NFR11 | Bảo mật                    | Thông tin cá nhân của khách hàng và tài xế phải được bảo vệ khỏi truy cập trái phép.                                    |
+| NFR12 | Bảo mật                    | Dữ liệu vị trí của tài xế phải được bảo vệ và chỉ cung cấp cho các đối tượng có quyền truy cập.                         |
+| NFR13 | Bảo mật                    | Dữ liệu giao dịch phải được bảo vệ trong quá trình truyền và lưu trữ.                                                   |
+| NFR14 | Bảo mật                    | Thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán không được lưu trực tiếp trong hệ thống CAB.                       |
+| NFR15 | Audit                      | Các thao tác quản trị và thao tác quan trọng phải được ghi lại để phục vụ kiểm tra và điều tra sự cố.                   |
+| NFR16 | Khả năng bảo trì           | Hệ thống phải có kiến trúc cho phép thay đổi hoặc nâng cấp từng thành phần mà hạn chế ảnh hưởng đến các chức năng khác. |
+| NFR17 | Khả năng mở rộng chức năng | Hệ thống phải cho phép bổ sung loại dịch vụ mới mà không phải xây dựng lại toàn bộ ứng dụng.                            |
+| NFR18 | Khả năng mở rộng chức năng | Hệ thống phải cho phép tích hợp thêm phương thức thanh toán trong tương lai.                                            |
+| NFR19 | Khả năng mở rộng chức năng | Hệ thống phải cho phép tích hợp thêm các nhà cung cấp dịch vụ thông báo.                                                |
+| NFR20 | Tương thích                | Hệ thống phải có khả năng tích hợp với các dịch vụ bên ngoài như nhà cung cấp thanh toán và dịch vụ thông báo.          |
+| NFR21 | Triển khai                 | Các chức năng mới phải có thể được triển khai từng phần và hạn chế ảnh hưởng đến các chức năng đang hoạt động.          |
+| NFR22 | Tính toàn vẹn dữ liệu      | Dữ liệu chuyến đi, thanh toán, tài xế và khách hàng phải được lưu trữ chính xác và nhất quán.                           |
+| NFR23 | Khả năng sử dụng           | Giao diện phải dễ sử dụng để khách hàng có thể nhanh chóng tạo và theo dõi chuyến đi.                                   |
+| NFR24 | Khả năng sử dụng           | Giao diện vận hành phải giúp nhân viên dễ dàng theo dõi chuyến đang diễn ra, tài xế và các trường hợp lỗi.              |
+| NFR25 | Khả năng phục vụ           | Hệ thống phải hỗ trợ số lượng lớn khách hàng và tài xế đồng thời mà vẫn duy trì hiệu năng phù hợp.                      |
+
+---
+
+## 2. Phân loại Non-Functional Requirement
+
+### 2.1. Performance – Hiệu năng
+
+* **NFR01:** Phản hồi nhanh đối với các thao tác thông thường.
+* **NFR02:** Xử lý được nhiều yêu cầu đặt xe đồng thời.
+* **NFR03:** Cập nhật trạng thái chuyến và vị trí tài xế với độ trễ thấp.
+
+### 2.2. Scalability – Khả năng mở rộng
+
+* **NFR04:** Mở rộng khi số lượng người dùng và chuyến đi tăng.
+* **NFR05:** Các thành phần có thể mở rộng độc lập.
+* **NFR17:** Có thể bổ sung loại dịch vụ mới.
+* **NFR18:** Có thể bổ sung phương thức thanh toán.
+* **NFR19:** Có thể bổ sung nhà cung cấp thông báo.
+
+### 2.3. Security – Bảo mật
+
+* **NFR09:** Xác thực người dùng.
+* **NFR10:** Phân quyền quản trị.
+* **NFR11:** Bảo vệ thông tin cá nhân.
+* **NFR12:** Bảo vệ dữ liệu vị trí.
+* **NFR13:** Bảo vệ dữ liệu giao dịch.
+* **NFR14:** Không lưu thông tin nhạy cảm của phương thức thanh toán.
+
+### 2.4. Reliability & Availability – Độ tin cậy và tính sẵn sàng
+
+* **NFR06:** Hệ thống hoạt động ổn định trong giờ cao điểm.
+* **NFR07:** Lỗi thanh toán/thông báo không làm dừng toàn bộ hệ thống.
+* **NFR08:** Có khả năng phục hồi khi dịch vụ bên ngoài hoặc kết nối gặp lỗi.
+
+### 2.5. Maintainability – Khả năng bảo trì
+
+* **NFR16:** Có thể thay đổi từng thành phần độc lập.
+* **NFR21:** Có thể triển khai chức năng mới từng phần.
+
+### 2.6. Audit & Data Integrity – Kiểm tra và toàn vẹn dữ liệu
+
+* **NFR15:** Ghi nhận các thao tác quan trọng.
+* **NFR22:** Đảm bảo dữ liệu chính xác và nhất quán.
+
+### 2.7. Usability – Khả năng sử dụng
+
+* **NFR23:** Giao diện khách hàng dễ sử dụng.
+* **NFR24:** Giao diện vận hành dễ theo dõi và quản lý.
+* **NFR25:** Phục vụ được số lượng lớn người dùng đồng thời.
+
+---
+
+## 3. Các NFR cần xác nhận với khách hàng
+
+Một số NFR trong tài liệu hiện chưa có con số cụ thể. BA cần xác nhận trước khi chuyển sang giai đoạn thiết kế chi tiết:
+
+| Nội dung                | Cần xác nhận                                                     |
+| ----------------------- | ---------------------------------------------------------------- |
+| Thời gian phản hồi      | Hệ thống phải phản hồi trong tối đa bao nhiêu giây?              |
+| Số người dùng đồng thời | Hệ thống cần hỗ trợ tối đa bao nhiêu khách hàng/tài xế cùng lúc? |
+| Thời gian hoạt động     | Hệ thống yêu cầu mức uptime bao nhiêu %?                         |
+| Cập nhật vị trí         | Vị trí tài xế cần được cập nhật mỗi bao nhiêu giây?              |
+| Thời gian phục hồi      | Khi xảy ra lỗi, hệ thống phải phục hồi trong tối đa bao lâu?     |
+| Lưu trữ dữ liệu         | Dữ liệu chuyến đi, giao dịch và nhật ký được lưu trong bao lâu?  |
+| Bảo mật                 | Doanh nghiệp yêu cầu những tiêu chuẩn bảo mật nào?               |
+| Sao lưu                 | Dữ liệu được sao lưu với tần suất như thế nào?                   |
+
+> **Kết luận:** CAB System cần đặc biệt chú trọng **Performance, Scalability, Security, Availability, Reliability và Maintainability**, vì đây là các yếu tố trực tiếp quyết định khả năng vận hành hệ thống khi số lượng khách hàng và tài xế tăng cao.
 
 
