@@ -976,3 +976,118 @@ Các nhóm chức năng chính gồm:
 
 > **Lưu ý:** Các vấn đề như cách tính cước cụ thể, tiêu chí ưu tiên tài xế, thời gian phản hồi, chính sách hủy chuyến và xử lý mất kết nối vẫn là các nội dung cần BA xác nhận thêm với khách hàng trước khi đặc tả FR ở mức chi tiết.
 
+# B8: Business Rules và Acceptance Criteria
+
+## 1. Business Rules – Quy định nghiệp vụ
+
+| Mã    | Quy định nghiệp vụ                                                                                                                    |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| BRL01 | Khách hàng phải đăng nhập trước khi thực hiện các chức năng đặt xe.                                                                   |
+| BRL02 | Khách hàng phải nhập đầy đủ điểm đón và điểm đến trước khi tạo chuyến đi.                                                             |
+| BRL03 | Khách hàng phải lựa chọn loại xe/dịch vụ trước khi gửi yêu cầu đặt xe.                                                                |
+| BRL04 | Chuyến đi chỉ được tạo khi thông tin đặt xe hợp lệ.                                                                                   |
+| BRL05 | Tài xế phải ở trạng thái **sẵn sàng** mới được hệ thống đề xuất nhận chuyến.                                                          |
+| BRL06 | Tài xế phải có phương tiện hợp lệ và phù hợp với loại dịch vụ của chuyến đi.                                                          |
+| BRL07 | Hệ thống ưu tiên tài xế phù hợp và gần vị trí khách hàng.                                                                             |
+| BRL08 | Tài xế có quyền chấp nhận hoặc từ chối yêu cầu chuyến đi.                                                                             |
+| BRL09 | Nếu tài xế từ chối chuyến, hệ thống phải tiếp tục tìm tài xế phù hợp khác.                                                            |
+| BRL10 | Nếu tài xế không phản hồi trong thời gian quy định, hệ thống phải xử lý như trường hợp không nhận chuyến và tiếp tục tìm tài xế khác. |
+| BRL11 | Nếu không tìm được tài xế phù hợp, hệ thống phải thông báo rõ ràng cho khách hàng.                                                    |
+| BRL12 | Chỉ tài xế được phân công cho chuyến mới được phép cập nhật trạng thái của chuyến đó.                                                 |
+| BRL13 | Tài xế phải cập nhật trạng thái theo đúng trình tự của chuyến đi.                                                                     |
+| BRL14 | Chuyến đi chỉ được chuyển sang trạng thái hoàn thành khi tài xế xác nhận đã hoàn thành chuyến.                                        |
+| BRL15 | Cước chuyến đi phải được tính dựa trên loại dịch vụ và thông tin chuyến đi theo chính sách của doanh nghiệp.                          |
+| BRL16 | Khách hàng có thể thanh toán bằng tiền mặt hoặc phương thức thanh toán điện tử được hệ thống hỗ trợ.                                  |
+| BRL17 | Thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán không được lưu trực tiếp trong hệ thống CAB.                                     |
+| BRL18 | Giao dịch thanh toán điện tử thất bại phải được thông báo cho khách hàng và xử lý lại theo chính sách doanh nghiệp.                   |
+| BRL19 | Khách hàng chỉ được đánh giá tài xế sau khi chuyến đi hoàn thành.                                                                     |
+| BRL20 | Hệ thống phải gửi thông báo cho khách hàng khi có các sự kiện quan trọng của chuyến đi.                                               |
+| BRL21 | Tài xế phải nhận được thông báo khi có chuyến mới hoặc thay đổi liên quan đến chuyến đang thực hiện.                                  |
+| BRL22 | Nhân viên chỉ được thực hiện các chức năng quản trị phù hợp với quyền được cấp.                                                       |
+| BRL23 | Các thao tác quản trị quan trọng phải được ghi nhận vào nhật ký hệ thống.                                                             |
+| BRL24 | Dữ liệu cá nhân, dữ liệu vị trí và dữ liệu giao dịch phải được bảo vệ khỏi truy cập trái phép.                                        |
+| BRL25 | Tài xế chỉ được nhận chuyến phù hợp với loại phương tiện và trạng thái hoạt động của mình.                                            |
+
+---
+
+# 2. Acceptance Criteria – Điều kiện nghiệm thu
+
+| Mã   | Chức năng             | Acceptance Criteria                                                                                             |
+| ---- | --------------------- | --------------------------------------------------------------------------------------------------------------- |
+| AC01 | Đăng nhập             | Khi người dùng nhập đúng thông tin tài khoản, hệ thống cho phép đăng nhập và truy cập chức năng tương ứng.      |
+| AC02 | Đăng nhập             | Khi thông tin đăng nhập không hợp lệ, hệ thống từ chối đăng nhập và thông báo lỗi.                              |
+| AC03 | Tạo chuyến            | Khi khách hàng nhập đầy đủ điểm đón, điểm đến và loại xe, hệ thống cho phép tạo yêu cầu đặt xe.                 |
+| AC04 | Tạo chuyến            | Khi thiếu điểm đón hoặc điểm đến, hệ thống không cho phép tạo chuyến và yêu cầu khách hàng bổ sung thông tin.   |
+| AC05 | Tìm tài xế            | Khi có tài xế đang **sẵn sàng** và phù hợp, hệ thống gửi yêu cầu chuyến đi đến tài xế đó.                       |
+| AC06 | Tìm tài xế            | Khi không có tài xế phù hợp, hệ thống thông báo cho khách hàng rằng chưa tìm được tài xế.                       |
+| AC07 | Tài xế nhận chuyến    | Khi tài xế đang ở trạng thái sẵn sàng và chấp nhận chuyến, hệ thống xác nhận tài xế được phân công.             |
+| AC08 | Tài xế từ chối        | Khi tài xế từ chối chuyến, hệ thống tiếp tục tìm tài xế khác mà không yêu cầu khách hàng tạo lại chuyến.        |
+| AC09 | Tài xế không phản hồi | Khi tài xế không phản hồi trong thời gian quy định, hệ thống chuyển sang tìm tài xế khác.                       |
+| AC10 | Thông báo             | Khi tài xế chấp nhận chuyến, khách hàng nhận được thông báo về tài xế đã nhận chuyến.                           |
+| AC11 | Theo dõi chuyến       | Khi tài xế cập nhật trạng thái chuyến, trạng thái mới được hiển thị cho khách hàng theo quyền được phép.        |
+| AC12 | Hoàn thành chuyến     | Khi tài xế xác nhận hoàn thành chuyến, hệ thống cập nhật chuyến sang trạng thái hoàn thành.                     |
+| AC13 | Tính cước             | Khi chuyến đi hoàn thành, hệ thống tính và hiển thị số tiền khách hàng phải thanh toán.                         |
+| AC14 | Thanh toán            | Khi thanh toán điện tử thành công, hệ thống ghi nhận giao dịch thành công và thông báo cho khách hàng.          |
+| AC15 | Thanh toán thất bại   | Khi thanh toán điện tử thất bại, hệ thống thông báo kết quả và cho phép xử lý lại theo chính sách doanh nghiệp. |
+| AC16 | Đánh giá              | Khi chuyến đi đã hoàn thành, khách hàng có thể đánh giá tài xế.                                                 |
+| AC17 | Đánh giá              | Khi chuyến đi chưa hoàn thành, hệ thống không cho phép khách hàng đánh giá tài xế.                              |
+| AC18 | Phân quyền            | Nhân viên không có quyền quản trị không thể thực hiện các thao tác nhạy cảm.                                    |
+| AC19 | Nhật ký               | Khi người dùng thực hiện thao tác quản trị quan trọng, hệ thống ghi nhận thao tác vào nhật ký.                  |
+| AC20 | Bảo mật               | Người dùng chưa xác thực không thể truy cập các chức năng yêu cầu đăng nhập.                                    |
+
+---
+
+# 3. Ví dụ Business Rule → Acceptance Criteria
+
+### Ví dụ 1: Trạng thái tài xế
+
+**Business Rule:**
+
+> `BRL05: Tài xế phải ở trạng thái Sẵn sàng mới được hệ thống đề xuất nhận chuyến.`
+
+**Acceptance Criteria:**
+
+> `AC05: Khi hệ thống tìm tài xế, chỉ những tài xế đang ở trạng thái Sẵn sàng và phù hợp với chuyến đi mới được đưa vào danh sách đề xuất.`
+
+---
+
+### Ví dụ 2: Tài xế từ chối chuyến
+
+**Business Rule:**
+
+> `BRL09: Nếu tài xế từ chối chuyến, hệ thống phải tiếp tục tìm tài xế khác.`
+
+**Acceptance Criteria:**
+
+> `AC08: Khi tài xế từ chối yêu cầu, hệ thống tự động tìm tài xế phù hợp tiếp theo và khách hàng không cần tạo lại yêu cầu.`
+
+---
+
+### Ví dụ 3: Không tìm được tài xế
+
+**Business Rule:**
+
+> `BRL11: Nếu không tìm được tài xế phù hợp, hệ thống phải thông báo cho khách hàng.`
+
+**Acceptance Criteria:**
+
+> `AC06: Khi hệ thống không tìm được tài xế phù hợp, khách hàng nhận được thông báo rằng yêu cầu đặt xe chưa tìm được tài xế.`
+
+---
+
+## 4. Các Business Rule cần xác nhận thêm
+
+Một số quy định chưa được khách hàng xác định cụ thể, BA cần xác nhận trước khi phát triển:
+
+| Nội dung cần xác nhận     | Câu hỏi cần làm rõ                                                                           |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| Thời gian phản hồi tài xế | Tài xế có bao nhiêu giây/phút để chấp nhận hoặc từ chối chuyến?                              |
+| Tiêu chí ưu tiên          | Hệ thống ưu tiên tài xế dựa trên khoảng cách, thời gian chờ, đánh giá hay tiêu chí nào khác? |
+| Tính cước                 | Cước được tính dựa trên khoảng cách, thời gian, loại xe hay kết hợp nhiều yếu tố?            |
+| Hủy chuyến                | Khách hàng và tài xế được hủy chuyến trong những trường hợp nào?                             |
+| Phí hủy                   | Có áp dụng phí khi khách hàng hoặc tài xế hủy chuyến hay không?                              |
+| Thanh toán thất bại       | Khách hàng được thử thanh toán lại bao nhiêu lần?                                            |
+| Mất kết nối               | Hệ thống xử lý thế nào khi khách hàng hoặc tài xế mất kết nối mạng?                          |
+| Lưu trữ dữ liệu           | Dữ liệu chuyến đi, giao dịch và nhật ký được lưu trong bao lâu?                              |
+
+
