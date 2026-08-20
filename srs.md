@@ -2371,3 +2371,210 @@ flowchart LR
 * Tài xế nhận được chuyến mới.
 * Có thay đổi liên quan đến chuyến đang thực hiện.
 
+# B13: Acceptance Criteria (AC)
+
+## 1. Tiêu chí chấp nhận tổng quát
+
+| Mã AC | Chức năng             | Tiêu chí chấp nhận                                                                                            |
+| ----- | --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| AC01  | Đăng ký               | Khách hàng nhập đầy đủ thông tin hợp lệ thì hệ thống tạo tài khoản thành công.                                |
+| AC02  | Đăng ký               | Nếu email hoặc số điện thoại đã tồn tại, hệ thống không cho phép tạo tài khoản trùng và phải thông báo lỗi.   |
+| AC03  | Đăng nhập             | Người dùng nhập đúng thông tin thì được đăng nhập và truy cập chức năng theo quyền.                           |
+| AC04  | Đăng nhập             | Người dùng nhập sai thông tin thì hệ thống từ chối đăng nhập và hiển thị thông báo lỗi.                       |
+| AC05  | Phân quyền            | Người dùng không có quyền không được phép truy cập chức năng bị giới hạn.                                     |
+| AC06  | Đặt xe                | Khách hàng phải đăng nhập trước khi đặt xe.                                                                   |
+| AC07  | Đặt xe                | Khách hàng phải nhập điểm đón, điểm đến và loại xe trước khi gửi yêu cầu.                                     |
+| AC08  | Đặt xe                | Khi thông tin hợp lệ, hệ thống tạo chuyến và chuyển sang trạng thái tìm tài xế.                               |
+| AC09  | Tìm tài xế            | Hệ thống chỉ tìm những tài xế đang ở trạng thái **Sẵn sàng** và phù hợp với loại xe/dịch vụ.                  |
+| AC10  | Tìm tài xế            | Hệ thống ưu tiên tài xế phù hợp và gần vị trí khách hàng theo tiêu chí doanh nghiệp quy định.                 |
+| AC11  | Tìm tài xế            | Khi tìm được tài xế, hệ thống gửi thông báo yêu cầu chuyến cho tài xế.                                        |
+| AC12  | Tìm tài xế            | Khi không tìm được tài xế, hệ thống thông báo rõ ràng cho khách hàng.                                         |
+| AC13  | Tài xế nhận chuyến    | Tài xế đang ở trạng thái Sẵn sàng mới được phép nhận chuyến.                                                  |
+| AC14  | Tài xế nhận chuyến    | Khi tài xế chấp nhận, hệ thống xác nhận tài xế được phân công và cập nhật trạng thái chuyến.                  |
+| AC15  | Tài xế từ chối        | Khi tài xế từ chối, hệ thống tự động tìm tài xế phù hợp tiếp theo.                                            |
+| AC16  | Tài xế không phản hồi | Khi tài xế không phản hồi trong thời gian quy định, hệ thống chuyển sang tìm tài xế khác.                     |
+| AC17  | Thông báo             | Khi tài xế nhận chuyến, khách hàng nhận được thông báo về tài xế và thông tin chuyến.                         |
+| AC18  | Theo dõi              | Khách hàng có thể xem trạng thái hiện tại của chuyến đi.                                                      |
+| AC19  | Theo dõi              | Khách hàng có thể xem thông tin tài xế và thời gian dự kiến tài xế đến.                                       |
+| AC20  | Theo dõi vị trí       | Hệ thống cập nhật vị trí tài xế để hỗ trợ khách hàng theo dõi chuyến.                                         |
+| AC21  | Thực hiện chuyến      | Tài xế phải cập nhật trạng thái theo quá trình thực hiện chuyến.                                              |
+| AC22  | Thực hiện chuyến      | Trạng thái chuyến phải được cập nhật theo đúng quy trình nghiệp vụ.                                           |
+| AC23  | Hoàn thành chuyến     | Chỉ khi tài xế xác nhận hoàn thành thì chuyến mới được chuyển sang trạng thái Hoàn thành.                     |
+| AC24  | Tính cước             | Sau khi chuyến hoàn thành, hệ thống xác định và hiển thị số tiền khách hàng phải trả.                         |
+| AC25  | Thanh toán tiền mặt   | Khi khách hàng thanh toán tiền mặt, hệ thống ghi nhận trạng thái thanh toán theo quy định.                    |
+| AC26  | Thanh toán điện tử    | Khi giao dịch điện tử thành công, hệ thống cập nhật trạng thái thanh toán thành công.                         |
+| AC27  | Thanh toán thất bại   | Khi giao dịch thất bại, hệ thống thông báo cho khách hàng và cho phép xử lý lại theo chính sách doanh nghiệp. |
+| AC28  | Bảo mật thanh toán    | Hệ thống CAB không lưu trực tiếp thông tin nhạy cảm của thẻ hoặc tài khoản thanh toán.                        |
+| AC29  | Đánh giá              | Khách hàng chỉ được đánh giá tài xế sau khi chuyến đã hoàn thành.                                             |
+| AC30  | Đánh giá              | Hệ thống phải lưu lại đánh giá sau khi khách hàng gửi thành công.                                             |
+| AC31  | Lịch sử               | Khách hàng có thể xem danh sách và chi tiết các chuyến đã thực hiện.                                          |
+| AC32  | Quản lý khách hàng    | Nhân viên vận hành có quyền có thể tìm kiếm và xem thông tin khách hàng.                                      |
+| AC33  | Quản lý tài xế        | Nhân viên vận hành có quyền có thể tạo, xem và cập nhật thông tin tài xế.                                     |
+| AC34  | Quản lý phương tiện   | Nhân viên vận hành có quyền có thể thêm, cập nhật và tra cứu phương tiện.                                     |
+| AC35  | Quản lý chuyến        | Nhân viên vận hành có thể xem các chuyến đang diễn ra và hỗ trợ xử lý chuyến lỗi.                             |
+| AC36  | Giao dịch             | Nhân viên có quyền có thể tra cứu lịch sử và trạng thái giao dịch.                                            |
+| AC37  | Phân quyền            | Nhân viên thông thường không thể thực hiện các thao tác quản trị nhạy cảm nếu không được cấp quyền.           |
+| AC38  | Audit                 | Các thao tác quản trị quan trọng phải được ghi nhận vào nhật ký hệ thống.                                     |
+| AC39  | Báo cáo               | Người có quyền có thể xem báo cáo số lượng chuyến, doanh thu, tỷ lệ hoàn thành và tỷ lệ hủy.                  |
+| AC40  | Báo cáo tài xế        | Hệ thống cung cấp dữ liệu để đánh giá hiệu quả hoạt động của tài xế.                                          |
+| AC41  | Thông báo             | Hệ thống thông báo khi yêu cầu đặt xe được tiếp nhận.                                                         |
+| AC42  | Thông báo             | Hệ thống thông báo khi tài xế đến điểm đón.                                                                   |
+| AC43  | Thông báo             | Hệ thống thông báo khi chuyến đi hoàn thành.                                                                  |
+| AC44  | Thông báo             | Hệ thống thông báo kết quả thanh toán.                                                                        |
+| AC45  | Độ tin cậy            | Lỗi ở dịch vụ thanh toán hoặc thông báo không được làm toàn bộ chức năng đặt xe ngừng hoạt động.              |
+| AC46  | Mở rộng               | Có thể bổ sung phương thức thanh toán mới mà không phải xây dựng lại toàn bộ hệ thống.                        |
+| AC47  | Mở rộng               | Có thể bổ sung nhà cung cấp thông báo mới mà hạn chế ảnh hưởng đến các chức năng hiện tại.                    |
+| AC48  | Bảo mật               | Dữ liệu cá nhân, vị trí và giao dịch chỉ được truy cập bởi người có quyền.                                    |
+
+---
+
+# 2. Tiêu chí kết thúc của quy trình đặt xe
+
+Quy trình **Đặt xe** được xem là hoàn thành khi xảy ra **một trong hai kết quả cuối cùng**:
+
+### Trường hợp 1: Tìm được tài xế
+
+```text
+Khách hàng đăng nhập
+        ↓
+Nhập điểm đón + điểm đến
+        ↓
+Chọn loại xe
+        ↓
+Tạo yêu cầu đặt xe
+        ↓
+Hệ thống kiểm tra yêu cầu
+        ↓
+Tìm tài xế phù hợp
+        ↓
+Gửi yêu cầu cho tài xế
+        ↓
+Tài xế chấp nhận?
+     ↙       ↘
+   Không       Có
+     ↓         ↓
+Tìm tài xế    Xác nhận tài xế
+khác            ↓
+                ↓
+        Thông báo khách hàng
+                ↓
+        Chuyến được xác nhận
+```
+
+**Điều kiện kết thúc thành công:**
+
+* Chuyến đi được tạo thành công.
+* Tài xế phù hợp được xác định.
+* Tài xế chấp nhận chuyến.
+* Hệ thống ghi nhận tài xế được phân công.
+* Khách hàng nhận được thông báo.
+* Trạng thái chuyến được cập nhật thành **Đã xác nhận/Đã có tài xế**.
+
+---
+
+### Trường hợp 2: Không tìm được tài xế
+
+```text
+Tạo yêu cầu đặt xe
+        ↓
+Tìm tài xế
+        ↓
+Không có tài xế phù hợp
+        ↓
+Thông báo khách hàng
+        ↓
+Kết thúc yêu cầu
+```
+
+**Điều kiện kết thúc:**
+
+* Hệ thống đã thực hiện quá trình tìm tài xế theo chính sách.
+* Không có tài xế phù hợp.
+* Trạng thái yêu cầu được cập nhật.
+* Khách hàng nhận được thông báo rõ ràng.
+* Không yêu cầu khách hàng tạo lại yêu cầu nếu hệ thống vẫn còn khả năng tiếp tục tìm tài xế.
+
+---
+
+# 3. Tiêu chí kết thúc của chuyến đi
+
+Chuyến đi được xem là **hoàn thành** khi:
+
+1. Tài xế đã nhận chuyến.
+2. Tài xế đến điểm đón.
+3. Tài xế xác nhận đã đón khách.
+4. Tài xế thực hiện chuyến đi.
+5. Tài xế đến điểm đến.
+6. Tài xế xác nhận hoàn thành chuyến.
+7. Hệ thống cập nhật trạng thái chuyến thành **Hoàn thành**.
+8. Hệ thống tính cước.
+9. Hệ thống chuyển sang bước thanh toán.
+10. Khách hàng nhận được thông báo chuyến đã hoàn thành.
+
+---
+
+# 4. Tiêu chí kết thúc của thanh toán
+
+Thanh toán được xem là hoàn thành khi:
+
+### Thanh toán thành công
+
+* Hệ thống nhận được kết quả thanh toán thành công.
+* Giao dịch được lưu vào hệ thống.
+* Trạng thái thanh toán được cập nhật thành **Thành công**.
+* Khách hàng nhận được thông báo.
+
+### Thanh toán thất bại
+
+* Hệ thống nhận được kết quả thất bại hoặc xác định giao dịch thất bại.
+* Trạng thái giao dịch được cập nhật.
+* Khách hàng nhận được thông báo.
+* Hệ thống cho phép xử lý lại nếu chính sách doanh nghiệp cho phép.
+
+---
+
+# 5. Tiêu chí hoàn thành toàn bộ quy trình CAB
+
+Quy trình đặt xe được xem là hoàn tất khi hệ thống đạt được chuỗi kết quả:
+
+```text
+Đặt xe
+  ↓
+Tìm tài xế
+  ↓
+Tài xế nhận chuyến
+  ↓
+Thực hiện chuyến
+  ↓
+Hoàn thành chuyến
+  ↓
+Tính cước
+  ↓
+Thanh toán
+  ↓
+Ghi nhận giao dịch
+  ↓
+Khách hàng đánh giá
+  ↓
+Kết thúc
+```
+
+### Definition of Done
+
+Hệ thống được xem là đáp ứng yêu cầu khi:
+
+* [x] Khách hàng có thể tạo yêu cầu đặt xe.
+* [x] Hệ thống tìm và phân công được tài xế phù hợp.
+* [x] Hệ thống xử lý được trường hợp tài xế từ chối/không phản hồi.
+* [x] Khách hàng theo dõi được trạng thái chuyến.
+* [x] Tài xế cập nhật được trạng thái chuyến.
+* [x] Hệ thống xác định được cước phí.
+* [x] Hệ thống hỗ trợ thanh toán tiền mặt và điện tử.
+* [x] Hệ thống xử lý được thanh toán thất bại.
+* [x] Hệ thống gửi thông báo cho khách hàng và tài xế.
+* [x] Khách hàng đánh giá được tài xế sau chuyến.
+* [x] Nhân viên vận hành quản lý và theo dõi được hệ thống.
+* [x] Hệ thống kiểm soát quyền truy cập.
+* [x] Các thao tác quan trọng được ghi nhật ký.
+* [x] Dữ liệu người dùng, vị trí và giao dịch được bảo vệ.
+* [x] Lỗi ở một thành phần không làm toàn bộ hệ thống ngừng hoạt động.
