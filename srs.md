@@ -2578,3 +2578,210 @@ Hệ thống được xem là đáp ứng yêu cầu khi:
 * [x] Các thao tác quan trọng được ghi nhật ký.
 * [x] Dữ liệu người dùng, vị trí và giao dịch được bảo vệ.
 * [x] Lỗi ở một thành phần không làm toàn bộ hệ thống ngừng hoạt động.
+
+# B14: Requirements Traceability Matrix (RTM)
+
+## 1. Mục đích
+
+**Requirements Traceability Matrix (RTM)** là ma trận dùng để truy xuất nguồn gốc yêu cầu, giúp kiểm tra rằng mỗi yêu cầu nghiệp vụ đều được chuyển thành chức năng hệ thống, được mô tả bằng Use Case và có tiêu chí chấp nhận để kiểm thử.
+
+Luồng truy xuất:
+
+```text
+BG
+ ↓
+BR
+ ↓
+FR
+ ↓
+UC
+ ↓
+AC
+```
+
+Trong đó:
+
+* **BG (Business Goal):** Mục tiêu kinh doanh.
+* **BR (Business Requirement):** Yêu cầu nghiệp vụ.
+* **FR (Functional Requirement):** Yêu cầu chức năng.
+* **UC (Use Case):** Trường hợp sử dụng.
+* **AC (Acceptance Criteria):** Tiêu chí chấp nhận.
+
+---
+
+# 2. Business Goal (BG)
+
+| Mã BG | Business Goal                                                                          |
+| ----- | -------------------------------------------------------------------------------------- |
+| BG01  | Xây dựng nền tảng đặt xe trực tuyến giúp khách hàng dễ dàng đặt và theo dõi chuyến đi. |
+| BG02  | Tự động hóa quá trình tìm kiếm và phân công tài xế.                                    |
+| BG03  | Quản lý tập trung chuyến đi, thanh toán và thông tin khách hàng/tài xế.                |
+| BG04  | Nâng cao hiệu quả vận hành và khả năng quản lý của doanh nghiệp.                       |
+| BG05  | Đảm bảo hệ thống an toàn, ổn định và có khả năng mở rộng trong tương lai.              |
+
+---
+
+# 3. Requirements Traceability Matrix
+
+| BG   | BR   | FR      | UC         | AC               |
+| ---- | ---- | ------- | ---------- | ---------------- |
+| BG01 | BR01 | FR01.01 | UC01       | AC01, AC02       |
+| BG01 | BR01 | FR01.02 | UC01       | AC03, AC04       |
+| BG01 | BR01 | FR01.03 | UC01       | AC05             |
+| BG01 | BR03 | FR03.01 | UC02       | AC07             |
+| BG01 | BR03 | FR03.02 | UC02       | AC07             |
+| BG01 | BR03 | FR03.03 | UC02       | AC07             |
+| BG01 | BR03 | FR03.04 | UC02       | AC08             |
+| BG01 | BR03 | FR03.05 | UC02       | AC08             |
+| BG01 | BR05 | FR05.01 | UC03, UC10 | AC18, AC21, AC22 |
+| BG01 | BR05 | FR05.02 | UC03       | AC19             |
+| BG01 | BR05 | FR05.03 | UC03       | AC19             |
+| BG01 | BR05 | FR05.04 | UC03, UC10 | AC20             |
+| BG01 | BR05 | FR05.05 | UC04       | AC31             |
+| BG01 | BR08 | FR08.01 | UC06       | AC29             |
+| BG01 | BR08 | FR08.02 | UC06       | AC30             |
+| BG01 | BR08 | FR08.03 | UC06       | AC30             |
+| BG02 | BR02 | FR02.01 | UC07       | AC33             |
+| BG02 | BR02 | FR02.02 | UC07       | AC33             |
+| BG02 | BR02 | FR02.03 | UC07, UC13 | AC34             |
+| BG02 | BR02 | FR02.04 | UC08       | AC13             |
+| BG02 | BR04 | FR04.01 | UC09       | AC09             |
+| BG02 | BR04 | FR04.02 | UC09       | AC10             |
+| BG02 | BR04 | FR04.03 | UC09       | AC11             |
+| BG02 | BR04 | FR04.04 | UC09       | AC14             |
+| BG02 | BR04 | FR04.05 | UC09       | AC15             |
+| BG02 | BR04 | FR04.06 | UC09       | AC16             |
+| BG02 | BR04 | FR04.07 | UC09       | AC15, AC16       |
+| BG02 | BR07 | FR07.01 | UC19       | AC41             |
+| BG02 | BR07 | FR07.02 | UC19       | AC17             |
+| BG02 | BR07 | FR07.03 | UC19       | AC42             |
+| BG02 | BR07 | FR07.04 | UC19       | AC43             |
+| BG02 | BR07 | FR07.05 | UC19       | AC44             |
+| BG02 | BR07 | FR07.06 | UC19       | AC17             |
+| BG03 | BR06 | FR06.01 | UC05       | AC24             |
+| BG03 | BR06 | FR06.02 | UC05       | AC24             |
+| BG03 | BR06 | FR06.03 | UC05       | AC25             |
+| BG03 | BR06 | FR06.04 | UC05       | AC26             |
+| BG03 | BR06 | FR06.05 | UC18       | AC26, AC28       |
+| BG03 | BR06 | FR06.06 | UC05, UC18 | AC27             |
+| BG03 | BR09 | FR09.01 | UC11       | AC32             |
+| BG03 | BR09 | FR09.02 | UC12       | AC33             |
+| BG03 | BR09 | FR09.03 | UC13       | AC34             |
+| BG03 | BR09 | FR09.04 | UC14       | AC35             |
+| BG03 | BR09 | FR09.05 | UC15       | AC36             |
+| BG03 | BR09 | FR09.06 | UC14       | AC35             |
+| BG04 | BR09 | FR09.07 | UC16       | AC37             |
+| BG04 | BR10 | FR10.01 | UC17       | AC39             |
+| BG04 | BR10 | FR10.02 | UC17       | AC39             |
+| BG04 | BR10 | FR10.03 | UC17       | AC39             |
+| BG04 | BR10 | FR10.04 | UC17       | AC39             |
+| BG04 | BR10 | FR10.05 | UC17       | AC40             |
+| BG05 | BR01 | FR01.04 | UC01       | AC03, AC05       |
+| BG05 | BR09 | FR09.07 | UC16       | AC37             |
+| BG05 | BR06 | FR06.05 | UC18       | AC28             |
+| BG05 | BR07 | FR07.06 | UC19       | AC45             |
+| BG05 | BR09 | FR09.07 | UC16       | AC38             |
+| BG05 | BR05 | FR05.04 | UC03       | AC20             |
+| BG05 | BR06 | FR06.06 | UC05       | AC27             |
+| BG05 | BR10 | FR10.01 | UC17       | AC39             |
+
+---
+
+# 4. RTM dạng tổng hợp theo Business Requirement
+
+| BG   | BR                     | FR               | UC                           | AC                           |
+| ---- | ---------------------- | ---------------- | ---------------------------- | ---------------------------- |
+| BG01 | BR01                   | FR01.01–FR01.04  | UC01                         | AC01–AC05                    |
+| BG01 | BR03                   | FR03.01–FR03.05  | UC02                         | AC06–AC08                    |
+| BG01 | BR05                   | FR05.01–FR05.05  | UC03, UC04, UC10             | AC18–AC23, AC31              |
+| BG01 | BR08                   | FR08.01–FR08.03  | UC06                         | AC29–AC30                    |
+| BG02 | BR02                   | FR02.01–FR02.04  | UC07, UC08                   | AC13, AC33–AC34              |
+| BG02 | BR04                   | FR04.01–FR04.07  | UC09                         | AC09–AC16                    |
+| BG02 | BR07                   | FR07.01–FR07.06  | UC19                         | AC17, AC41–AC44              |
+| BG03 | BR06                   | FR06.01–FR06.06  | UC05, UC18                   | AC24–AC28                    |
+| BG03 | BR09                   | FR09.01–FR09.07  | UC11–UC16                    | AC32–AC38                    |
+| BG04 | BR10                   | FR10.01–FR10.05  | UC17                         | AC39–AC40                    |
+| BG05 | BR01, BR06, BR07, BR09 | Các FR liên quan | UC01, UC05, UC16, UC18, UC19 | AC27, AC28, AC37, AC38, AC45 |
+
+---
+
+# 5. Kiểm tra tính truy xuất
+
+## Chiều thuận
+
+Từ mục tiêu kinh doanh có thể truy xuất xuống yêu cầu và kiểm thử:
+
+```text
+BG01
+ ↓
+BR03
+ ↓
+FR03.04
+ ↓
+UC02
+ ↓
+AC08
+```
+
+Ví dụ:
+
+> **BG01:** Khách hàng có thể đặt xe trực tuyến
+> → **BR03:** Hệ thống phải hỗ trợ đặt xe
+> → **FR03.04:** Hệ thống cho phép khách hàng tạo yêu cầu đặt xe
+> → **UC02:** Đặt xe
+> → **AC08:** Khi thông tin hợp lệ, hệ thống tạo chuyến và chuyển sang trạng thái tìm tài xế.
+
+---
+
+## Chiều ngược
+
+Từ tiêu chí kiểm thử có thể truy ngược về yêu cầu ban đầu:
+
+```text
+AC15
+ ↓
+UC09
+ ↓
+FR04.05
+ ↓
+BR04
+ ↓
+BG02
+```
+
+Ví dụ:
+
+> **AC15:** Khi tài xế từ chối chuyến, hệ thống tự động tìm tài xế khác.
+> → **UC09:** Xử lý yêu cầu chuyến đi
+> → **FR04.05:** Xử lý tài xế từ chối chuyến
+> → **BR04:** Tìm kiếm và phân công tài xế
+> → **BG02:** Tự động hóa quá trình tìm kiếm và phân công tài xế.
+
+---
+
+# 6. Kết luận
+
+RTM giúp đảm bảo:
+
+* Mỗi **Business Goal** đều được cụ thể hóa thành các **Business Requirement**.
+* Mỗi **Business Requirement** đều có **Functional Requirement** tương ứng.
+* Các **Functional Requirement** đều được thể hiện trong **Use Case**.
+* Các **Use Case** đều có **Acceptance Criteria** để kiểm thử.
+* Có thể truy xuất **hai chiều** từ mục tiêu kinh doanh xuống kiểm thử và từ kiểm thử ngược lại yêu cầu ban đầu.
+
+```text
+Business Goal
+      ↓
+Business Requirement
+      ↓
+Functional Requirement
+      ↓
+Use Case
+      ↓
+Acceptance Criteria
+      ↓
+Testing
+```
+
+**RTM là cơ sở để nhóm BA, Developer và Tester kiểm tra rằng không có yêu cầu quan trọng nào bị bỏ sót trong quá trình phát triển CAB System.**
+
