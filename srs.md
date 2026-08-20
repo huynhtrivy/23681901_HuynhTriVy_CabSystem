@@ -1090,4 +1090,382 @@ Một số quy định chưa được khách hàng xác định cụ thể, BA c
 | Mất kết nối               | Hệ thống xử lý thế nào khi khách hàng hoặc tài xế mất kết nối mạng?                          |
 | Lưu trữ dữ liệu           | Dữ liệu chuyến đi, giao dịch và nhật ký được lưu trong bao lâu?                              |
 
+# B9: Xác định thực thể và sơ đồ ERD
+
+## 1. Xác định các thực thể
+
+| STT | Thực thể          | Mô tả                                                                |
+| --- | ----------------- | -------------------------------------------------------------------- |
+| 1   | **KhachHang**     | Lưu thông tin tài khoản và thông tin cá nhân của khách hàng.         |
+| 2   | **TaiXe**         | Lưu thông tin tài khoản, hồ sơ và trạng thái hoạt động của tài xế.   |
+| 3   | **PhuongTien**    | Lưu thông tin phương tiện mà tài xế sử dụng.                         |
+| 4   | **LoaiXe**        | Lưu các loại xe/dịch vụ mà hệ thống cung cấp.                        |
+| 5   | **ChuyenDi**      | Lưu thông tin yêu cầu và quá trình thực hiện chuyến đi.              |
+| 6   | **DiaDiem**       | Lưu thông tin điểm đón và điểm đến của chuyến đi.                    |
+| 7   | **PhanCongTaiXe** | Lưu thông tin quá trình hệ thống tìm và phân công tài xế cho chuyến. |
+| 8   | **ThanhToan**     | Lưu thông tin và trạng thái thanh toán của chuyến đi.                |
+| 9   | **DanhGia**       | Lưu đánh giá của khách hàng đối với tài xế sau chuyến đi.            |
+| 10  | **ThongBao**      | Lưu các thông báo gửi đến khách hàng hoặc tài xế.                    |
+| 11  | **NhanVien**      | Lưu thông tin nhân viên vận hành hệ thống.                           |
+| 12  | **VaiTro**        | Lưu các vai trò và quyền hạn của nhân viên.                          |
+| 13  | **NhatKyHeThong** | Lưu vết các thao tác quan trọng trong hệ thống.                      |
+
+---
+
+## 2. Các thuộc tính chính của thực thể
+
+### KhachHang
+
+* **MaKH** (PK)
+* HoTen
+* Email
+* SoDienThoai
+* MatKhau
+* DiaChi
+* TrangThai
+
+### TaiXe
+
+* **MaTX** (PK)
+* HoTen
+* Email
+* SoDienThoai
+* MatKhau
+* TrangThaiHoatDong
+* ViTriHienTai
+* NgayDangKy
+
+### PhuongTien
+
+* **MaPT** (PK)
+* MaTX (FK)
+* MaLoaiXe (FK)
+* BienSo
+* HangXe
+* MauXe
+* TrangThai
+
+### LoaiXe
+
+* **MaLoaiXe** (PK)
+* TenLoaiXe
+* MoTa
+* DonGiaCoBan
+
+### ChuyenDi
+
+* **MaChuyen** (PK)
+* MaKH (FK)
+* MaLoaiXe (FK)
+* MaDiemDon (FK)
+* MaDiemDen (FK)
+* ThoiGianTao
+* ThoiGianBatDau
+* ThoiGianKetThuc
+* TrangThai
+* SoTien
+
+### DiaDiem
+
+* **MaDiaDiem** (PK)
+* DiaChi
+* ViDo
+* KinhDo
+
+### PhanCongTaiXe
+
+* **MaPhanCong** (PK)
+* MaChuyen (FK)
+* MaTX (FK)
+* ThoiGianGui
+* ThoiGianPhanHoi
+* TrangThaiPhanCong
+
+### ThanhToan
+
+* **MaThanhToan** (PK)
+* MaChuyen (FK)
+* PhuongThuc
+* SoTien
+* ThoiGianThanhToan
+* TrangThai
+* MaGiaoDich
+
+### DanhGia
+
+* **MaDanhGia** (PK)
+* MaChuyen (FK)
+* MaKH (FK)
+* MaTX (FK)
+* Diem
+* NoiDung
+* ThoiGianDanhGia
+
+### ThongBao
+
+* **MaThongBao** (PK)
+* MaKH (FK, nullable)
+* MaTX (FK, nullable)
+* MaChuyen (FK, nullable)
+* LoaiThongBao
+* NoiDung
+* ThoiGianGui
+* TrangThaiDoc
+
+### NhanVien
+
+* **MaNV** (PK)
+* MaVaiTro (FK)
+* HoTen
+* Email
+* MatKhau
+* TrangThai
+
+### VaiTro
+
+* **MaVaiTro** (PK)
+* TenVaiTro
+* MoTa
+
+### NhatKyHeThong
+
+* **MaNhatKy** (PK)
+* MaNV (FK)
+* HanhDong
+* DoiTuong
+* ThoiGian
+* NoiDung
+* DiaChiIP
+
+---
+
+# 3. Mối quan hệ giữa các thực thể
+
+| Thực thể 1 | Quan hệ             | Thực thể 2         | Cardinality |
+| ---------- | ------------------- | ------------------ | ----------- |
+| KhachHang  | tạo                 | ChuyenDi           | 1:N         |
+| LoaiXe     | được lựa chọn trong | ChuyenDi           | 1:N         |
+| LoaiXe     | phân loại           | PhuongTien         | 1:N         |
+| TaiXe      | sở hữu/sử dụng      | PhuongTien         | 1:1         |
+| ChuyenDi   | có                  | DiaDiem (điểm đón) | N:1         |
+| ChuyenDi   | có                  | DiaDiem (điểm đến) | N:1         |
+| ChuyenDi   | có quá trình        | PhanCongTaiXe      | 1:N         |
+| TaiXe      | nhận/phản hồi       | PhanCongTaiXe      | 1:N         |
+| ChuyenDi   | có                  | ThanhToan          | 1:N         |
+| KhachHang  | thực hiện           | DanhGia            | 1:N         |
+| TaiXe      | nhận                | DanhGia            | 1:N         |
+| ChuyenDi   | được đánh giá       | DanhGia            | 1:0..1      |
+| KhachHang  | nhận                | ThongBao           | 1:N         |
+| TaiXe      | nhận                | ThongBao           | 1:N         |
+| ChuyenDi   | phát sinh           | ThongBao           | 1:N         |
+| VaiTro     | được gán cho        | NhanVien           | 1:N         |
+| NhanVien   | tạo                 | NhatKyHeThong      | 1:N         |
+
+---
+
+# 4. Sơ đồ ERD
+
+Có thể sử dụng Mermaid để vẽ ERD trực tiếp trên GitHub:
+
+```mermaid
+erDiagram
+
+    KHACH_HANG ||--o{ CHUYEN_DI : "tao"
+
+    LOAI_XE ||--o{ CHUYEN_DI : "duoc_chon"
+    LOAI_XE ||--o{ PHUONG_TIEN : "phan_loai"
+
+    TAI_XE ||--o| PHUONG_TIEN : "su_dung"
+
+    DIA_DIEM ||--o{ CHUYEN_DI : "diem_don"
+    DIA_DIEM ||--o{ CHUYEN_DI : "diem_den"
+
+    CHUYEN_DI ||--o{ PHAN_CONG_TAI_XE : "co"
+    TAI_XE ||--o{ PHAN_CONG_TAI_XE : "nhan"
+
+    CHUYEN_DI ||--o{ THANH_TOAN : "co"
+
+    KHACH_HANG ||--o{ DANH_GIA : "tao"
+    TAI_XE ||--o{ DANH_GIA : "nhan"
+    CHUYEN_DI ||--o| DANH_GIA : "duoc_danh_gia"
+
+    KHACH_HANG ||--o{ THONG_BAO : "nhan"
+    TAI_XE ||--o{ THONG_BAO : "nhan"
+    CHUYEN_DI ||--o{ THONG_BAO : "phat_sinh"
+
+    VAI_TRO ||--o{ NHAN_VIEN : "duoc_gan"
+
+    NHAN_VIEN ||--o{ NHAT_KY_HE_THONG : "tao"
+
+    KHACH_HANG {
+        int MaKH PK
+        string HoTen
+        string Email
+        string SoDienThoai
+        string MatKhau
+        string DiaChi
+        string TrangThai
+    }
+
+    TAI_XE {
+        int MaTX PK
+        string HoTen
+        string Email
+        string SoDienThoai
+        string MatKhau
+        string TrangThaiHoatDong
+        decimal ViTriHienTai
+        date NgayDangKy
+    }
+
+    PHUONG_TIEN {
+        int MaPT PK
+        int MaTX FK
+        int MaLoaiXe FK
+        string BienSo
+        string HangXe
+        string MauXe
+        string TrangThai
+    }
+
+    LOAI_XE {
+        int MaLoaiXe PK
+        string TenLoaiXe
+        string MoTa
+        decimal DonGiaCoBan
+    }
+
+    CHUYEN_DI {
+        int MaChuyen PK
+        int MaKH FK
+        int MaLoaiXe FK
+        int MaDiemDon FK
+        int MaDiemDen FK
+        datetime ThoiGianTao
+        datetime ThoiGianBatDau
+        datetime ThoiGianKetThuc
+        string TrangThai
+        decimal SoTien
+    }
+
+    DIA_DIEM {
+        int MaDiaDiem PK
+        string DiaChi
+        decimal ViDo
+        decimal KinhDo
+    }
+
+    PHAN_CONG_TAI_XE {
+        int MaPhanCong PK
+        int MaChuyen FK
+        int MaTX FK
+        datetime ThoiGianGui
+        datetime ThoiGianPhanHoi
+        string TrangThaiPhanCong
+    }
+
+    THANH_TOAN {
+        int MaThanhToan PK
+        int MaChuyen FK
+        string PhuongThuc
+        decimal SoTien
+        datetime ThoiGianThanhToan
+        string TrangThai
+        string MaGiaoDich
+    }
+
+    DANH_GIA {
+        int MaDanhGia PK
+        int MaChuyen FK
+        int MaKH FK
+        int MaTX FK
+        int Diem
+        string NoiDung
+        datetime ThoiGianDanhGia
+    }
+
+    THONG_BAO {
+        int MaThongBao PK
+        int MaKH FK
+        int MaTX FK
+        int MaChuyen FK
+        string LoaiThongBao
+        string NoiDung
+        datetime ThoiGianGui
+        string TrangThaiDoc
+    }
+
+    NHAN_VIEN {
+        int MaNV PK
+        int MaVaiTro FK
+        string HoTen
+        string Email
+        string MatKhau
+        string TrangThai
+    }
+
+    VAI_TRO {
+        int MaVaiTro PK
+        string TenVaiTro
+        string MoTa
+    }
+
+    NHAT_KY_HE_THONG {
+        int MaNhatKy PK
+        int MaNV FK
+        string HanhDong
+        string DoiTuong
+        datetime ThoiGian
+        string NoiDung
+        string DiaChiIP
+    }
+```
+
+## 5. Giải thích quan hệ quan trọng
+
+### Khách hàng → Chuyến đi
+
+Một **khách hàng có thể tạo nhiều chuyến đi**, nhưng mỗi chuyến đi chỉ thuộc về một khách hàng.
+
+```text
+KHACH_HANG (1) ───────── (N) CHUYEN_DI
+```
+
+### Chuyến đi → Phân công tài xế
+
+Một chuyến có thể được gửi cho **nhiều tài xế lần lượt** nếu tài xế trước từ chối hoặc không phản hồi.
+
+```text
+CHUYEN_DI (1) ───────── (N) PHAN_CONG_TAI_XE (N) ───────── (1) TAI_XE
+```
+
+Đây là quan hệ quan trọng vì nó phản ánh đúng Business Process ở B6.
+
+### Chuyến đi → Thanh toán
+
+Một chuyến có thể phát sinh một hoặc nhiều bản ghi thanh toán trong trường hợp thanh toán thất bại và thực hiện lại.
+
+```text
+CHUYEN_DI (1) ───────── (N) THANH_TOAN
+```
+
+### Chuyến đi → Đánh giá
+
+Sau khi chuyến hoàn thành, khách hàng có thể đánh giá tài xế.
+
+```text
+CHUYEN_DI (1) ───────── (0..1) DANH_GIA
+```
+
+### Tài xế → Phương tiện
+
+Mỗi tài xế sử dụng một phương tiện trong phạm vi mô hình hiện tại.
+
+```text
+TAI_XE (1) ───────── (1) PHUONG_TIEN
+```
+
+> **Lưu ý:** Nếu doanh nghiệp cho phép một tài xế sử dụng nhiều phương tiện, quan hệ này cần đổi thành **1:N** và bổ sung quy định phương tiện nào đang được sử dụng.
+
+
 
