@@ -1,0 +1,350 @@
+openapi: 3.0.0
+info:
+  title: CAB System - User Management API
+  description: |
+    API for FG01 - Quản lý tài khoản người dùng.
+
+    Functional Requirements:
+    - FR01.01: Đăng ký tài khoản khách hàng
+    - FR01.02: Đăng nhập hệ thống
+    - FR01.03: Cập nhật thông tin cá nhân
+    - FR01.04: Xác thực người dùng
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/abcxyz-ee9/api_specication/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:3000/api/v1
+  description: Local Docker Server
+tags:
+- name: FR01.01
+  description: Đăng ký tài khoản khách hàng
+- name: FR01.02
+  description: Đăng nhập hệ thống
+- name: FR01.03
+  description: Cập nhật thông tin cá nhân
+- name: FR01.04
+  description: Xác thực người dùng
+paths:
+  /auth/register:
+    post:
+      tags:
+      - FR01.01
+      summary: Đăng ký tài khoản khách hàng
+      description: FR01.01 - Khách hàng tạo tài khoản mới trên hệ thống CAB.
+      operationId: registerCustomer
+      requestBody:
+        description: Thông tin đăng ký tài khoản
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+        required: true
+      responses:
+        "201":
+          description: Đăng ký tài khoản thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+        "400":
+          description: Dữ liệu đăng ký không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Số điện thoại hoặc email đã tồn tại
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Lỗi hệ thống
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /auth/login:
+    post:
+      tags:
+      - FR01.02
+      summary: Đăng nhập hệ thống
+      description: FR01.02 - Người dùng đăng nhập bằng số điện thoại và mật khẩu.
+      operationId: login
+      requestBody:
+        description: Thông tin đăng nhập
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: Đăng nhập thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "400":
+          description: Dữ liệu đăng nhập không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Sai số điện thoại hoặc mật khẩu
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Tài khoản chưa được xác thực
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Lỗi hệ thống
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /users/me:
+    put:
+      tags:
+      - FR01.03
+      summary: Cập nhật thông tin cá nhân
+      description: FR01.03 - Người dùng cập nhật thông tin cá nhân của tài khoản.
+      operationId: updateUserProfile
+      requestBody:
+        description: Thông tin cá nhân cần cập nhật
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileRequest"
+        required: true
+      responses:
+        "200":
+          description: Cập nhật thông tin thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Dữ liệu cập nhật không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Người dùng chưa đăng nhập
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Không tìm thấy người dùng
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Lỗi hệ thống
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - bearerAuth: []
+  /auth/verify:
+    post:
+      tags:
+      - FR01.04
+      summary: Xác thực người dùng
+      description: FR01.04 - Xác thực tài khoản bằng mã xác thực.
+      operationId: verifyUser
+      requestBody:
+        description: Thông tin xác thực tài khoản
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyRequest"
+        required: true
+      responses:
+        "200":
+          description: Xác thực tài khoản thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifyResponse"
+        "400":
+          description: Mã xác thực không hợp lệ hoặc đã hết hạn
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Không tìm thấy tài khoản
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Lỗi hệ thống
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        fullName:
+          type: string
+          example: Nguyen Van A
+        phone:
+          type: string
+          example: "0901234567"
+        email:
+          type: string
+          format: email
+          example: nguyenvana@gmail.com
+        role:
+          type: string
+          example: CUSTOMER
+          enum:
+          - CUSTOMER
+          - DRIVER
+          - OPERATOR
+          - ADMIN
+        isVerified:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          example: 2026-09-03T10:00:00Z
+    RegisterRequest:
+      required:
+      - fullName
+      - password
+      - phone
+      type: object
+      properties:
+        fullName:
+          type: string
+          example: Nguyen Van A
+        phone:
+          type: string
+          example: "0901234567"
+        email:
+          type: string
+          format: email
+          example: nguyenvana@gmail.com
+        password:
+          type: string
+          format: password
+          example: "12345678"
+    RegisterResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Đăng ký tài khoản thành công
+        user:
+          $ref: "#/components/schemas/User"
+    LoginRequest:
+      required:
+      - password
+      - phone
+      type: object
+      properties:
+        phone:
+          type: string
+          example: "0901234567"
+        password:
+          type: string
+          format: password
+          example: "12345678"
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Đăng nhập thành công
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        user:
+          $ref: "#/components/schemas/User"
+    UpdateProfileRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+          example: Nguyen Van B
+        phone:
+          type: string
+          example: "0901234567"
+        email:
+          type: string
+          format: email
+          example: nguyenvanb@gmail.com
+    VerifyRequest:
+      required:
+      - phone
+      - verificationCode
+      type: object
+      properties:
+        phone:
+          type: string
+          example: "0901234567"
+        verificationCode:
+          type: string
+          example: "123456"
+    VerifyResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Xác thực tài khoản thành công
+        user:
+          $ref: "#/components/schemas/User"
+    Error:
+      required:
+      - error_code
+      - message
+      - success
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error_code:
+          type: string
+          example: INVALID_INPUT
+        message:
+          type: string
+          example: Dữ liệu không hợp lệ
+        timestamp:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
